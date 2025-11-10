@@ -1,0 +1,40 @@
+Elite 101 Chatbot Guidance
+
+During Elite 101, you will build a chatbot that will simulate a conversation with the user in some business scenario. For example, a simple chatbot for a retail store that can answer customers' frequently asked questions about store hours, location, available products, and prices.
+
+Task:
+Your chatbot template needs to have the following features:
+
+Welcome the user
+Collect the user’s name and age
+Ask the user how it can help them
+Allow the user to choose from a menu/list of options on how they can continue the conversation
+
+Include one menu option for exiting the conversation. This option should display a goodbye message and end your program.
+
+
+
+Description
+Problem Statement
+Your task is to build a chatbot that will simulate a conversation with the user. The amount of responses and how they are generated are up to you, but the conversation should continue until the user chooses to end it.
+Business Scenarios
+1. Create a chatbot for a restaurant that can take orders, provide information about the menu and specials, and make reservations.
+
+
+*Feel free to come up with your own scenario, so long as the project meets to specifications listed in the task at the top of this page
+Resources
+
+
+
+
+What Should My Completed Project Look Like?
+
+As you continue working on this throughout the term, your goal is to build it out and expand the menu options and conversation topics. For example, if you chose scenario 2, your finished project might handle all aspects of an online food order. Everything from viewing the menu, seeing your total, ordering items, selecting pickup/delivery etc. In addition, features like reservations can be added. 
+
+This is an opportunity for you to get creative and see what you can build! Try to challenge yourself and do research to see how you can make your project stand out.
+
+Possible Improvements:
+A basic UI instead of handling the chat in the CLI
+A wider array of conversation branches
+Any additional features outside of those listed above
+
