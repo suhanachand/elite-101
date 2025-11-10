@@ -56,11 +56,12 @@ def show_menu():
         "<button onclick=\"sendMessage('1')\">1️. View Menu</button><br>"
         "<button onclick=\"sendMessage('2')\">2️. Today's Specials</button><br>"
         "<button onclick=\"sendMessage('3')\">3. Restaurant Info</button><br>"
-        "<button onclick=\"sendMessage('4')\">4. Exit</button>"
+        "<button onclick=\"sendMessage('4')\">4. Make a Reservation</button>"
+        "<button onclick=\"sendMessage('5')\">5. Exit</button>"
     )
 
 
-def handle_menu_selection(choice):
+def handle_menu_selection(choice, message=None):
     """Menu options."""
     if choice in ["1", "menu"]:
         menu_list = "<br>".join([f"{i.title()} - ${p:.2f}" for i, p in menu.items()])
@@ -74,7 +75,6 @@ def handle_menu_selection(choice):
             + show_menu()
         )
 
-
     elif choice in ["3", "info"]:
         return (
             "📍 <b>Namaste Indian Kitchen</b><br>"
@@ -84,18 +84,70 @@ def handle_menu_selection(choice):
             + show_menu()
         )
 
-    elif choice in ["4", "exit"]:
+    elif choice in ["4", "reservation"]:
+        # Initialize reservation process
+        if "reservation_step" not in user_data or user_data.get("reservation_step") == 0:
+            user_data["reservation_step"] = 1
+            user_data["reservation"] = {}
+            return "🪷 Let's make your reservation!<br>Please enter your full name:"
+
+        # Step 1: Get name
+        elif user_data["reservation_step"] == 1:
+            user_data["reservation"]["name"] = message.strip().title()
+            user_data["reservation_step"] = 2
+            return "How many people will be dining?"
+
+        # Step 2: Get number of people
+        elif user_data["reservation_step"] == 2:
+            if not message.isdigit() or int(message) <= 0:
+                return "Please enter a valid number of guests."
+            user_data["reservation"]["people"] = int(message)
+            user_data["reservation_step"] = 3
+            return "On which date would you like to reserve? (e.g., 2025-11-12)"
+
+        # Step 3: Get date
+        elif user_data["reservation_step"] == 3:
+            user_data["reservation"]["date"] = message.strip()
+            user_data["reservation_step"] = 4
+            return "At what time? (e.g., 7:30 PM)"
+
+        # Step 4: Get time
+        elif user_data["reservation_step"] == 4:
+            user_data["reservation"]["time"] = message.strip()
+            user_data["reservation_step"] = 5
+            return "Would you like to leave a special request or occasion note? (Type 'none' if not applicable)"
+
+        # Step 5: Get special request
+        elif user_data["reservation_step"] == 5:
+            note = message.strip()
+            if note.lower() != "none":
+                user_data["reservation"]["note"] = note
+            else:
+                user_data["reservation"]["note"] = "None"
+
+            # Reservation complete
+            name = user_data["reservation"]["name"]
+            people = user_data["reservation"]["people"]
+            date = user_data["reservation"]["date"]
+            time = user_data["reservation"]["time"]
+            note = user_data["reservation"]["note"]
+
+            # Reset steps
+            user_data["reservation_step"] = 0
+
+            return (
+                f"✅ Your reservation has been successfully made, {name}!<br><br>"
+                f"📅 Date: {date}<br>"
+                f"⏰ Time: {time}<br>"
+                f"👥 Guests: {people}<br>"
+                f"📝 Special Request: {note}<br><br>"
+                f"Thank you for choosing Namaste Indian Kitchen — we look forward to serving you! 🍛"
+            )
+
+    elif choice in ["5", "exit"]:
         name = user_data["name"].capitalize()
         user_data.update({"name": "", "age": "", "step": 0, "total": 0.0, "order": []})
         return f"👋 Thank you, {name}! Have a flavorful day! 🍛"
 
     else:
         return "I didn’t understand that. Please choose a number (1–6)."
-
-
-
-
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
